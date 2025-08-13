@@ -119,7 +119,7 @@ class ShoppingViewController: UIViewController {
             self.navigationItem.title = title
         }
         viewModel.output.shoppingList.bind {
-            self.list = self.viewModel.output.shoppingList.value
+            self.list = self.viewModel.output.shoppingList.value!.items
             self.shoppingCollectionView.reloadData()
         }
     }

@@ -13,18 +13,18 @@ final class SearchViewModel {
         var searchBarTrigger: Observable<String> = Observable("")
     }
     struct Output {
-        var naverShoppingData: Observable<[ProductsList]> = Observable([])
+        var naverShoppingData: Observable<ShoppingList?> = Observable(nil)
         var naviTitle: Observable<String> = Observable("")
     }
     
     var input: Input
     var output: Output
     
-//    var inputSearchBarTrigger: Observable<String> = Observable("")
-//    
-//    var outputNaverShoppingData: Observable<[ProductsList]> = Observable([])
-//    var outputNaviTitle: Observable<String> = Observable("")
-        
+    //    var inputSearchBarTrigger: Observable<String> = Observable("")
+    //
+    //    var outputNaverShoppingData: Observable<[ProductsList]> = Observable([])
+    //    var outputNaviTitle: Observable<String> = Observable("")
+    
     init() {
         
         input = Input()
@@ -38,12 +38,18 @@ final class SearchViewModel {
     
     func callRequest(searchBarWord: String, sortIndex: Int) {
         
-        NetworkManager.shared.callRequst(completionHandler: { shoppinglist in
-            
-            self.output.naverShoppingData.value = shoppinglist
+        NetworkManager.shared.callRequst(api: .all(searchWord: searchBarWord), success: { response in
+            self.output.naverShoppingData.value = response
             self.output.naviTitle.value = searchBarWord
-            
-        }, searchBarWord: searchBarWord, sortIndex: sortIndex)
+        }, type: ShoppingList.self)
         
+        //        NetworkManager.shared.callRequst(completionHandler: { shoppinglist in
+        //
+        //            self.output.naverShoppingData.value = shoppinglist
+        //            self.output.naviTitle.value = searchBarWord
+        //
+        //        }, searchBarWord: searchBarWord, sortIndex: sortIndex)
+        //
     }
+    
 }

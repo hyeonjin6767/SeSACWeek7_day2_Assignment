@@ -14,7 +14,7 @@ final class ShoppingViewModel {
         var sortTypeTrigger: Observable<Int> = Observable(0)
     }
     struct Output {
-        var shoppingList: Observable<[ProductsList]> = Observable([])
+        var shoppingList: Observable<ShoppingList?> = Observable(nil)
         var naviTitle: Observable<String> = Observable("")
     }
     
@@ -44,13 +44,17 @@ final class ShoppingViewModel {
     
     func callRequest(searchBarWord: String, sortIndex: Int) {
         
-        NetworkManager.shared.callRequst(completionHandler: { shoppinglist in
-            
-            self.output.shoppingList.value = shoppinglist
-            //self.outputNaviTitle.value = searchBarWord
-            
-        }, searchBarWord: searchBarWord, sortIndex: sortIndex)
-        
+        NetworkManager.shared.callRequst(api: .sorted(searchWord: searchBarWord, sortIndex: sortIndex), success: { response in
+            self.output.shoppingList.value = response
+        }, type: ShoppingList.self)
+
+//        NetworkManager.shared.callRequst(completionHandler: { shoppinglist in
+//            
+//            self.output.shoppingList.value = shoppinglist
+//            //self.outputNaviTitle.value = searchBarWord
+//            
+//        }, searchBarWord: searchBarWord, sortIndex: sortIndex)
+//        
     }
     
 }

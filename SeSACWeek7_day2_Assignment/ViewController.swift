@@ -53,12 +53,12 @@ class ViewController: UIViewController {
             vc.viewModel.output.naviTitle.value = self.viewModel.input.searchBarTrigger.value
             vc.shoppingCollectionView.reloadData()
             self.navigationController?.pushViewController(vc, animated: true)
-
+            
         }
     }
 }
 
-//검색어 전달
+//검색어 및 신호 전달
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(#function)
@@ -68,7 +68,6 @@ extension ViewController: UISearchBarDelegate {
         }
         viewModel.input.searchBarTrigger.value = searchBar.text!
         
-//
 //        let vc = ShoppingViewController()
 //        vc.searchBarToss = "\(searchBar.text!)"
 //        vc.shoppingCollectionView.reloadData()

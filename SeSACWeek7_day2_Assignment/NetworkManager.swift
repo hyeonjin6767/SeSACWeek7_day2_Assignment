@@ -15,41 +15,63 @@ final class NetworkManager {
     private init() { }
 
     var list: [ProductsList] = []
-    var url = ""
-    var fixUrl = ""
 
-    let sorts = ["", "sim", "date", "dsc", "asc"]
+    static let sorts = ["", "sim", "date", "dsc", "asc"]
     
-    func callRequst(completionHandler: @escaping ([ProductsList]) -> Void, searchBarWord: String, sortIndex: Int) {
-        //print(#function, "첫번째")
-        var url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchBarWord)&display=100&start=1&sort=\(sorts[sortIndex])"
-        let removePart = "&sort=\(sorts[sortIndex])"
-        
-        if sortIndex == 0 {
-            if let range = url.range(of: removePart) {
-                url.removeSubrange(range)
-            }
-        }
-        let header: HTTPHeaders = ["X-Naver-Client-Id": "xA5LXXctMDL0kfcaEa4x",
-                                   "X-Naver-Client-Secret": "xspwBdaWWj"]
-        AF.request(url, method: .get, headers: header)
-            .validate(statusCode: 200..<300)
-            .responseDecodable(of: ShoppingList.self) { response in
-            //print(#function, "두번째")
+    func callRequst<T: Decodable>(api: NaverRouter, success: @escaping (T) -> Void, type: T.Type) {
+        AF.request(api.endpoint,
+                   method: api.method,
+                   parameters: api.parameters,
+                   encoding: URLEncoding(destination: .queryString),
+                   headers: api.headers).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let value):
                 print("success")
                 
-                self.list = value.items
-                completionHandler(self.list)
-                
+                success(value)
+                print("url체크 : \(api)")
+
             case .failure(let error):
                 //self.showAlert(title: "데이터를 가져오는데 실패했습니다.", message: "", ok: "확인")
                 print("fail", error)
             }
         }
-        //print(#function, "세번째")
-        print("url체크 : \(url)")
     }
+    
+    
+//    func callRequst(completionHandler: @escaping ([ProductsList]) -> Void, searchBarWord: String, sortIndex: Int) {
+//        //print(#function, "첫번째")
+//        var url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchBarWord)&display=100&start=1&sort=\(sorts[sortIndex])"
+//        let removePart = "&sort=\(sorts[sortIndex])"
+//        
+//        if sortIndex == 0 {
+//            if let range = url.range(of: removePart) {
+//                url.removeSubrange(range)
+//            }
+//        }
+//        let header: HTTPHeaders = ["X-Naver-Client-Id": "xA5LXXctMDL0kfcaEa4x",
+//                                   "X-Naver-Client-Secret": "xspwBdaWWj"]
+//        AF.request(url, method: .get, headers: header)
+//            .validate(statusCode: 200..<300)
+//            .responseDecodable(of: ShoppingList.self) { response in
+//            //print(#function, "두번째")
+//            switch response.result {
+//            case .success(let value):
+//                print("success")
+//                
+//                self.list = value.items
+//                completionHandler(self.list)
+//                
+//            case .failure(let error):
+//                //self.showAlert(title: "데이터를 가져오는데 실패했습니다.", message: "", ok: "확인")
+//                print("fail", error)
+//            }
+//        }
+//        //print(#function, "세번째")
+//        print("url체크 : \(url)")
+//    }
+    
+    
+    
 }
 
