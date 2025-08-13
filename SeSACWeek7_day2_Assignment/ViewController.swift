@@ -46,6 +46,15 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         //navigationController?.navigationItem.backButtonTitle = ""
         
+        viewModel.outputNaverShoppingData.lazyBind {
+            
+            let vc = ShoppingViewController()
+            vc.viewModel.outputShoppingList.value = self.viewModel.outputNaverShoppingData.value
+            vc.viewModel.outputNaviTitle.value = self.viewModel.inputSearchBarTrigger.value
+            vc.shoppingCollectionView.reloadData()
+            self.navigationController?.pushViewController(vc, animated: true)
+
+        }
     }
 }
 
@@ -59,15 +68,6 @@ extension ViewController: UISearchBarDelegate {
         }
         viewModel.inputSearchBarTrigger.value = searchBar.text!
         
-        viewModel.outputNaverShoppingData.bind {
-            
-            let vc = ShoppingViewController()
-            vc.viewModel.outputShoppingList.value = self.viewModel.outputNaverShoppingData.value
-            vc.viewModel.outputNaviTitle.value = self.viewModel.inputSearchBarTrigger.value
-            vc.shoppingCollectionView.reloadData()
-            self.navigationController?.pushViewController(vc, animated: true)
-
-        }
 //
 //        let vc = ShoppingViewController()
 //        vc.searchBarToss = "\(searchBar.text!)"

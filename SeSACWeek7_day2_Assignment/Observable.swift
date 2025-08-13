@@ -31,6 +31,6 @@ class Observable<T> {
     
     func lazyBind(play: @escaping () -> Void) {
         
-        self.action = play
+        action = play
     }
 }

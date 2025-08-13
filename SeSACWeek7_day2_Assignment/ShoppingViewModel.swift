@@ -24,7 +24,6 @@ final class ShoppingViewModel {
         inputSortTypeTrigger.lazyBind {
             print("정렬 버튼 신호 받음")
             self.callRequest(searchBarWord: self.outputNaviTitle.value, sortIndex: self.inputSortTypeTrigger.value)
-
         }
        
     }
