@@ -113,13 +113,13 @@ class ShoppingViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.topItem?.title = ""
         
-        viewModel.outputNaviTitle.bind {
-            let title = self.viewModel.outputNaviTitle.value
+        viewModel.output.naviTitle.bind {
+            let title = self.viewModel.output.naviTitle.value
             print("타이틀 받음adijflaij, \(title)")
             self.navigationItem.title = title
         }
-        viewModel.outputShoppingList.bind {
-            self.list = self.viewModel.outputShoppingList.value
+        viewModel.output.shoppingList.bind {
+            self.list = self.viewModel.output.shoppingList.value
             self.shoppingCollectionView.reloadData()
         }
     }
@@ -128,21 +128,21 @@ class ShoppingViewController: UIViewController {
         print("정확도 버튼 눌림")
         buttonCheck = 1
         list.removeAll()
-        viewModel.inputSortTypeTrigger.value = buttonCheck
+        viewModel.input.sortTypeTrigger.value = buttonCheck
         shoppingCollectionView.reloadData()
     }
     @objc func sortDateButtomClicked() {
         print("날짜순 버튼 눌림")
         buttonCheck = 2
         list.removeAll()
-        viewModel.inputSortTypeTrigger.value = buttonCheck
+        viewModel.input.sortTypeTrigger.value = buttonCheck
         shoppingCollectionView.reloadData()
     }
     @objc func sortDscButtomClicked() {
         print("가격높은순 버튼 눌림")
         buttonCheck = 3
         list.removeAll()
-        viewModel.inputSortTypeTrigger.value = buttonCheck
+        viewModel.input.sortTypeTrigger.value = buttonCheck
         shoppingCollectionView.reloadData()
 
     }
@@ -150,7 +150,7 @@ class ShoppingViewController: UIViewController {
         print("가격낮은순 버튼 눌림")
         buttonCheck = 4
         list.removeAll()
-        viewModel.inputSortTypeTrigger.value = buttonCheck
+        viewModel.input.sortTypeTrigger.value = buttonCheck
         shoppingCollectionView.reloadData()
     }
     

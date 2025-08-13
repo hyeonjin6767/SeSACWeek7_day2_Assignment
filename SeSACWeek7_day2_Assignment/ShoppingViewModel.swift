@@ -9,21 +9,35 @@ import Foundation
 
 final class ShoppingViewModel {
     
-    var inputSortButtonTrigger: Observable<String> = Observable("")
-    var inputSortTypeTrigger: Observable<Int> = Observable(0)
+    struct Input {
+        var sortButtonTrigger: Observable<String> = Observable("")
+        var sortTypeTrigger: Observable<Int> = Observable(0)
+    }
+    struct Output {
+        var shoppingList: Observable<[ProductsList]> = Observable([])
+        var naviTitle: Observable<String> = Observable("")
+    }
     
-    var outputShoppingList: Observable<[ProductsList]> = Observable([])
+    var input: Input
+    var output: Output
     
-    var outputNaviTitle: Observable<String> = Observable("")
+//    var inputSortButtonTrigger: Observable<String> = Observable("")
+//    var inputSortTypeTrigger: Observable<Int> = Observable(0)
+//    
+//    var outputShoppingList: Observable<[ProductsList]> = Observable([])
+//    var outputNaviTitle: Observable<String> = Observable("")
         
     init() {
         
-        inputSortButtonTrigger.lazyBind {
-            self.callRequest(searchBarWord: self.outputNaviTitle.value, sortIndex: self.inputSortTypeTrigger.value)
+        input = Input()
+        output = Output()
+        
+        input.sortButtonTrigger.lazyBind {
+            self.callRequest(searchBarWord: self.output.naviTitle.value, sortIndex: self.input.sortTypeTrigger.value)
         }
-        inputSortTypeTrigger.lazyBind {
+        input.sortTypeTrigger.lazyBind {
             print("정렬 버튼 신호 받음")
-            self.callRequest(searchBarWord: self.outputNaviTitle.value, sortIndex: self.inputSortTypeTrigger.value)
+            self.callRequest(searchBarWord: self.output.naviTitle.value, sortIndex: self.input.sortTypeTrigger.value)
         }
        
     }
@@ -32,7 +46,7 @@ final class ShoppingViewModel {
         
         NetworkManager.shared.callRequst(completionHandler: { shoppinglist in
             
-            self.outputShoppingList.value = shoppinglist
+            self.output.shoppingList.value = shoppinglist
             //self.outputNaviTitle.value = searchBarWord
             
         }, searchBarWord: searchBarWord, sortIndex: sortIndex)

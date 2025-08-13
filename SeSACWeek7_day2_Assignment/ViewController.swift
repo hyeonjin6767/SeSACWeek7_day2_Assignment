@@ -46,11 +46,11 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         //navigationController?.navigationItem.backButtonTitle = ""
         
-        viewModel.outputNaverShoppingData.lazyBind {
+        viewModel.output.naverShoppingData.lazyBind {
             
             let vc = ShoppingViewController()
-            vc.viewModel.outputShoppingList.value = self.viewModel.outputNaverShoppingData.value
-            vc.viewModel.outputNaviTitle.value = self.viewModel.inputSearchBarTrigger.value
+            vc.viewModel.output.shoppingList.value = self.viewModel.output.naverShoppingData.value
+            vc.viewModel.output.naviTitle.value = self.viewModel.input.searchBarTrigger.value
             vc.shoppingCollectionView.reloadData()
             self.navigationController?.pushViewController(vc, animated: true)
 
@@ -66,7 +66,7 @@ extension ViewController: UISearchBarDelegate {
             print("2글자 미만 입력")
             return
         }
-        viewModel.inputSearchBarTrigger.value = searchBar.text!
+        viewModel.input.searchBarTrigger.value = searchBar.text!
         
 //
 //        let vc = ShoppingViewController()

@@ -9,17 +9,30 @@ import Foundation
 
 final class SearchViewModel {
     
-    var inputSearchBarTrigger: Observable<String> = Observable("")
+    struct Input {
+        var searchBarTrigger: Observable<String> = Observable("")
+    }
+    struct Output {
+        var naverShoppingData: Observable<[ProductsList]> = Observable([])
+        var naviTitle: Observable<String> = Observable("")
+    }
     
-    var outputNaverShoppingData: Observable<[ProductsList]> = Observable([])
+    var input: Input
+    var output: Output
     
-    var outputNaviTitle: Observable<String> = Observable("")
+//    var inputSearchBarTrigger: Observable<String> = Observable("")
+//    
+//    var outputNaverShoppingData: Observable<[ProductsList]> = Observable([])
+//    var outputNaviTitle: Observable<String> = Observable("")
         
     init() {
         
-        inputSearchBarTrigger.lazyBind {
-            print("검색어 신호 받음, \(self.inputSearchBarTrigger.value)")
-            self.callRequest(searchBarWord: self.inputSearchBarTrigger.value, sortIndex: 0)
+        input = Input()
+        output = Output()
+        
+        input.searchBarTrigger.lazyBind {
+            print("검색어 신호 받음, \(self.input.searchBarTrigger.value)")
+            self.callRequest(searchBarWord: self.input.searchBarTrigger.value, sortIndex: 0)
         }
     }
     
@@ -27,8 +40,8 @@ final class SearchViewModel {
         
         NetworkManager.shared.callRequst(completionHandler: { shoppinglist in
             
-            self.outputNaverShoppingData.value = shoppinglist
-            self.outputNaviTitle.value = searchBarWord
+            self.output.naverShoppingData.value = shoppinglist
+            self.output.naviTitle.value = searchBarWord
             
         }, searchBarWord: searchBarWord, sortIndex: sortIndex)
         
